@@ -1,12 +1,16 @@
 <head>
-    <title>Jacob's Website</title>
+    <title> {% block title%} Stuck in Highschool Sportsbook {% endblock %} </title>
 </head>
 <body>
+    <h1> Tester Content </h1>
     <div id="content", name="content">
-    % block content %
-
-    % endblock %
+        {% block content %}
+        {% endblock %}
     </div>
-    <h1>Fantasy Team Name: {{fantName}}</h1>
+
+    <div>
+        {% block playerList %}
+        {% endblock %}
+    </div>
 </body>
 </html>

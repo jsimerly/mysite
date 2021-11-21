@@ -10,10 +10,16 @@ class FantasyTeam(models.Model):
     def __str__(self):
         return self.sleeperName
 
+class Player(models.Model):
+    currentTeam = models.ForeignKey(FantasyTeam, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
 class ProjPoints(models.Model):
     team = models.ForeignKey(FantasyTeam, on_delete=models.CASCADE)
     projection = models.FloatField
 
     def __str__(self):
         return self.projection
-
