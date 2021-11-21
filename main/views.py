@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, response
+from django.http import HttpResponse, response, HttpResponseRedirect
 from .models import FantasyTeam, ProjPoints
 from . forms import PlaceBet
 
@@ -20,10 +20,17 @@ def players(response):
     return render(response, "main/players.html",htmlDict)
 
 def create(response):
+    team = FantasyTeam.objects.get(id=1)
+    htmlDict = {"teamName": team}
+
     if response.method == "POST":
         form = PlaceBet(response.POST)
 
+        if form.is_valid():
+            return render(response, "main/players.html",htmlDict)
     else:
         form = PlaceBet
+
+       
     
     return render(response, "main/create.html", {"form": form})
