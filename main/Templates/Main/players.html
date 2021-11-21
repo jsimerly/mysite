@@ -8,7 +8,7 @@ Players List
     <h1> Players </h1>
     <ul>
     {% for x in teamName.player_set.all %}
-        <li>{{player.name}}</li>
+        <li>{{x.name}}</li>
     {% endfor %}
     </ul>
 {% endblock%}
