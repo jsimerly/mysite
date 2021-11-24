@@ -4,29 +4,32 @@ import json
 from main.models import FantasyTeam
 from .static import Static
 
-class SleeperEndpoint():
-   
-    def _jsonFetch(self, https):
+class ApiEndpoint():
+
+    def jsonFetch(self, https):
         j = requests.get(https)
         j = json.loads(j.text)
         return j
 
-    def _getUsers(self, userUrl):
-        return self.jsonFetch(userUrl)
+    def getUsers(self):
+        return self.jsonFetch(Static.usersURL)
 
-    def _getRosters(self, rosterURL):
-        return self.jsonFetch(rosterURL)
+    def getRosters(self):
+        return self.jsonFetch(Static.rosterURL)
     
-    def _getState(self, stateURL):
-        return self.jsonFetch(stateURL)
+    def _getState(self):
+        return self.jsonFetch(Static.stateURL)
 
-    def _getWeek(self, state):
-        s = self.getState
+    def getMatchups(self):
+        return self.jsonFetch(Static.matchupsURL(self.getWeek))
+
+    def getWeek(self):
+        s = self._getState()
         return s['week']
 
-    def _getSeason(self, state):
-        s = self.getState
+    def getSeason(self):
+        s = self._getState()
         return s['season']
 
-    def _getPlayers(self, playerUrl):
-        return self.jsonFetch(playerUrl)
+    def getPlayers(self):
+        return self.jsonFetch(Static.playersURL)
