@@ -2,6 +2,7 @@
 class Static():
     leagueID = "730630605066371072"
     usersURL = 'https://api.sleeper.app/v1/league/{}/users'.format(leagueID)
+    rosterURL = 'https://api.sleeper.app/v1/league/{}/rosters'.format(leagueID)
     stateURL = 'https://api.sleeper.app/v1/state/nfl'
 
     defenceDict = {

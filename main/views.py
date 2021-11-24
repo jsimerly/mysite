@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, response, HttpResponseRedirect
-from .models import FantasyTeam, ProjPoints
+from .models import FantasyTeam
 from . forms import PlaceBet
 
 # Create your views here.
