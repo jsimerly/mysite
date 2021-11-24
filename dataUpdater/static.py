@@ -4,6 +4,10 @@ class Static():
     usersURL = 'https://api.sleeper.app/v1/league/{}/users'.format(leagueID)
     rosterURL = 'https://api.sleeper.app/v1/league/{}/rosters'.format(leagueID)
     stateURL = 'https://api.sleeper.app/v1/state/nfl'
+    playersURL = 'https://api.sleeper.app/v1/players/nfl'
+
+    def matchupsURL(self, week):
+            return 'https://api.sleeper.app/v1/league/{}/matchups/{}'.format(self.leagueID,week)
 
     defenceDict = {
         #AFC North
@@ -34,7 +38,7 @@ class Static():
         'GB':'Green Bay Packers',
         'CHI':'Chicago Bears',
         'MIN':'Minnesota Vikings',
-        #DET
+        'DET': 'Detriot Lions',
         
         #NFC East
         'DAL': 'Dallas Cowboys',
