@@ -25,8 +25,8 @@ class Player(models.Model):
     name = models.CharField(max_length=50)
     age = models.IntegerField(null=True)
     sleeperId = models.CharField(max_length = 6,null=True)
-
     pos = models.CharField(max_length=4, null=True)
+    nflTeam = models.CharField(max_length=4, null=True)
 
     currentProj = models.FloatField(default=0)
 
