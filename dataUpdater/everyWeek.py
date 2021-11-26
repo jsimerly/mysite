@@ -41,11 +41,14 @@ class AllPlayers(ApiEndpoint):
                         player.pos = js[playerId]['position']
                     except:
                         print('pos - error with {}'.format(playerId))
+
+                    try:
+                        player.nflTeam = js[playerId]['team']
+                    except:
+                        print('nflTaem - error with {}'.format(playerId))
+
                     
                 player.save()
-
-    def updateMatchups(self):
-        js = self.g
 
 
 
