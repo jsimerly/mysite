@@ -52,6 +52,7 @@ class Matchup(models.Model):
     team2 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team2')
     overUnder = models.FloatField(null=True)
     spreadT1 = models.FloatField(null=True)
+    spreadT2 = models.FloatField(null=True)
     team1Ml = models.FloatField(null=True)
     team2Ml = models.FloatField(null=True)
 

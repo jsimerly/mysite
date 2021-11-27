@@ -9,6 +9,8 @@ class Static():
         def matchupsURL(self, week):
                 return 'https://api.sleeper.app/v1/league/{}/matchups/{}'.format(self.leagueID,week)
 
+        vig = .05
+        
         defenceDict = {
                 #AFC North
                 'BAL': 'Baltimore Ravens',
