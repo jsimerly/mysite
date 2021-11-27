@@ -37,12 +37,23 @@ class PlayerHistory(models.Model):
     nflTeam = models.CharField(max_length=4)
 
 class TeamHistory(models.Model):
-    team = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT)
-    #opponent = models.ManyToManyField(FantasyTeam, open_code=PROTECT)
+    team = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='mainTeam')
+    opponent = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='opponent', default=11)
     season = models.IntegerField(null=True)
+    proj = models.FloatField(null=True)
     week = models.IntegerField(null=True)
     score = models.FloatField(null=True)
     ml = models.FloatField(null=True)
     ou = models.FloatField(null=True)
+
+class Matchup(models.Model):
+    matchupId = models.IntegerField(default=0)
+    team1 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team1')
+    team2 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team2')
+    overUnder = models.FloatField(null=True)
+    spreadT1 = models.FloatField(null=True)
+    team1Ml = models.FloatField(null=True)
+    team2Ml = models.FloatField(null=True)
+
     
     
