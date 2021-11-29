@@ -39,8 +39,10 @@ class UsersRosters(ApiEndpoint, Scraper):
             for i in rosterJS:
                 if team.sleeperId == i['owner_id']:
                     team.rosterId = i['roster_id']
+                    team.win = i['settings']['wins']
+                    team.loss = i['settings']['losses']
                     
-                    team.save()
+                team.save()
 
         for rosterTeam in rosterJS:
             
