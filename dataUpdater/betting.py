@@ -78,12 +78,6 @@ class CreateLines():
             print(matchup.team2Ml)
 
 
-
-
-
-
-    
-
     def createLineUp(self):
         teams = self.noFA
 
