@@ -1,0 +1,8 @@
+
+.betting-grid-container {
+    display: grid;
+    margin: 5px;
+    grid-template-columns: 30% 23% 23% 23%;
+    grid-row: row;
+    gap: 3px;
+}

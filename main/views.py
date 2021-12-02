@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, response, HttpResponseRedirect
-from .models import FantasyTeam
+from .models import FantasyTeam, Matchup
 from . forms import PlaceBet
 
 # Create your views here.
@@ -11,7 +11,9 @@ def index(response):
     return render(response, "main/base.html", htmlDict )
 
 def home(response):
-    htmlDict = {"fantName":"testname"}
+    mathcups = Matchup.objects.all()
+    htmlDict = {"fantName":"testname",
+                'matchups': mathcups}
     return render(response, "main/home.html", htmlDict)
 
 def players(response):

@@ -1,8 +1,43 @@
 {% extends 'main/base.html' %}
+{% load static %}
+
+
+
 {% block title %}
-Home
-{% endblock%}
+SIH Sportsbook
+{% endblock %}
 
 {% block content %}
-    <h1>Players</h1>
-{% endblock%}
+<link rel="stylesheet" type="text/css" href={% static 'css/betting.css' %}/>
+    <h1>Matchups</h1>
+
+        {% for match in matchups %}
+            Matchup {{match.matchupId}}
+            <div class='betting-grid-container'>
+                <div>
+                    {{match.team1.funName}}
+                </div>
+                <div>
+                    {{match.overUnder}}
+                </div>
+                <div>
+                    {{match.spreadT1}}
+                </div>
+                <div>
+                    {{match.team1Ml}}
+                </div>
+                <div>
+                    {{match.team2.funName}}
+                </div>
+                <div>
+                    {{match.overUnder}}
+                </div>
+                <div>
+                    {{match.spreadT1}}
+                </div>
+                <div>
+                    {{match.team2Ml}}
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}

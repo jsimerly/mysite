@@ -1,0 +1,102 @@
+* {
+    border: solid 1px red;
+  }
+
+div {
+    border: 1px solid blue;
+}
+
+table {
+  border: 1px solid green;
+}
+
+body,html {
+  margin:0;
+  padding:0;
+}
+
+a {
+  text-decoration: None;
+  color: white;
+}
+
+.logo-text {
+  inline-size: 5;
+  overflow-wrap: break-word;
+  font-size: 22;
+  color: white;
+}
+
+.top-nav {
+  display: flex;
+  background-color: black;
+  padding: .5%;
+}
+
+.logo-nav {
+  display: flex;
+  flex:1;
+  margin: auto;
+  text-align: center;
+}
+
+.content-nav {
+  
+  flex: 4;
+  margin:auto;
+  text-align: center;
+}
+
+.account-nav {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  margin: auto;  
+}
+
+.btn-nav {
+  margin: 2%;
+  color: white;
+  font-size: 32;
+}
+
+.circle-square {
+  border-radius: 50%;
+}
+
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd}
+
+.show {display:block;}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  
+  border-top: 20px solid #f00;
+}

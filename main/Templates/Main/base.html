@@ -1,16 +1,42 @@
+{% load static %}
+
+<html lang="en">
 <head>
-    <title> {% block title%} Stuck in Highschool Sportsbook {% endblock %} </title>
+  <title>{% block title %} Stuck in Highschool Sportsbook {% endblock title %}</title>
+  <link rel="stylesheet" type="text/css" href={% static 'css/main.css' %}/>
 </head>
 <body>
-    <h1> Tester Content </h1>
-    <div id="content", name="content">
-        {% block content %}
-        {% endblock %}
+  <div class='top-nav'>
+    <div class='logo-nav'>
+      <div>
+        <img src={% static 'images/fishershse.jpg' %} alt="" height='40'>
+      </div>
+      <div>
+        <a class='logo-text' href="#">Stuck in Highschool Sportsbook</a>
+      </div>
     </div>
+    <div class='content-nav'> 
+      <a class='btn-nav' href="#">Home</a>
+      <a class='btn-nav' href="#">Stats</a>
+      <a class='btn-nav' href="#">Teams</a>
+      <a class='btn-nav' href="#">Bets</a>
+      <a class='btn-nav' href="#">History</a>
+    </div>
+    <div class='account-nav'>
+      <div class='dropdown'>
+        <img onclick='myFunction()' class = 'dropbtn circle-square' src={%static 'images/barrack.jpg' %} alt="", height ='80'>
+                <div id="myDropdown" class="dropdown-content">
+          <a href="#">Account</a>
+          <a href="#">Profile</a>
+          <a style='border-top: 1px solid black'href="#">Sign Out</a>
+        </div>
+      </div>    
+    </div>
+  </div>
+  <script type='text/javascript' src={% static 'js/script.js' %}></script>
 
-    <div>
-        {% block playerList %}
-        {% endblock %}
-    </div>
+  {% block content %}
+  {% endblock content %}
+
 </body>
 </html>
