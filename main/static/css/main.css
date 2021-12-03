@@ -7,9 +7,10 @@ div {
 } */
 
 body,html {
-  background-color: rgb(234, 240, 239);
+  background-color: rgb(10, 10, 10);
   margin:0;
   padding:0;
+  color: white;
 }
 
 a {
@@ -37,7 +38,7 @@ a {
 
 .nav-background {
   background-color: grey;
-  padding: .5%;
+  left:0;
 }
 
 .logo-nav {

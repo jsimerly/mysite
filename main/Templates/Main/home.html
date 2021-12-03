@@ -1,6 +1,4 @@
 {% extends 'main/base.html' %}
-{% load static %}
-
 
 
 {% block title %}
@@ -8,51 +6,50 @@ SIH Sportsbook
 {% endblock %}
 
 {% block content %}
+{% load static %}
 <link rel="stylesheet" type="text/css" href={% static 'css/betting.css' %}/>
-    <div class='betting-grid-margin'>
+    <div class='max-width'>
         <h1>Matchups</h1>
-            {% for match in matchups %}
-                <div class='betting-grid-container'>
-                    <div>
-                        <div>Matchup {{match.matchupId}}</div>
+        <div class="betting-max-width">
+            <div>
+                <div class='betting-container'>
+                    <div class='teams-container'>
+                        Matchup
                     </div>
-                    <div>
-                        <div>Total</div>
-                    </div>
-                    <div>
-                        <div>Spread</div>
-                    </div>
-                    <div>
-                        <div>Moneyline</div>
+                    <div class='lines-container'>
+                        <div class='flex1'> Total </div>
+                        <div class='flex1'> Spread </div>
+                        <div class='flex1'> Moneyline </div>
                     </div>
                 </div>
-                
-                <div class='betting-grid-container'>
-                    <div>
+            </div>
+            hey
+            {% for match in matchups %}
+                <div class='betting-container'>
+                    <div class='teams-container'>
                         {{match.team1.funName}}
                     </div>
-                    <div>
-                        {{match.overUnder}}
-                    </div>
-                    <div>
-                        {{match.spreadT1}}
-                    </div>
-                    <div>
-                        {{match.team1Ml}}
-                    </div>
-                    <div>
-                        {{match.team2.funName}}
-                    </div>
-                    <div>
-                        {{match.overUnder}}
-                    </div>
-                    <div>
-                        {{match.spreadT1}}
-                    </div>
-                    <div>
-                        {{match.team2Ml}}
+                    <div class='lines-container'>
+                        <div class='flex1'> O {{match.overUnder|floatformat:"0"}} </div>
+                        <div class='flex1'> {{match.spreadT1|floatformat:"0"}} </div>
+                        <div class='flex1'> {{match.team1Ml|floatformat:"0"}} </div>
                     </div>
                 </div>
+                <div class="betting-container">
+                    <div class='teams-container'>
+                        {{match.team2.funName}}
+                    </div>
+                    <div class='lines-container'>
+                        <div class='flex1'> U {{match.overUnder|floatformat:"0"}} </div>
+                        <div class='flex1'> {{match.spreadT1|floatformat:"0"}} </div>
+                        <div class='flex1'> {{match.team2Ml|floatformat:"0"}} </div>
+                    </div>
+                </div>
+                <div>
+                    hey
+                </div>
             {% endfor %}
+        </div>
     </div>
+        
 {% endblock %}

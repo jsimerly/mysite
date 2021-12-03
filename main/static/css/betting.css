@@ -1,13 +1,45 @@
 
+
 .betting-grid-container {
     display: grid;
-    margin: 5px;
-    grid-template-columns: 30% 23% 23% 23%;
+    padding: 15px;
+    grid-template-columns: 55% 15% 15% 15%;
     grid-row: row;
-    gap: 3px;
+    gap: 5px;
+    border: 1px solid black;
 }
 
-.betting-grid-margin {
-    margin: 0 auto;
-    max-width: 1440px;
+
+.betting-container {
+    display: flex;
+    background-color: rgb(48, 48, 48);
+}
+
+.center-text {
+    text-align: center;
+}
+
+.betting-max-width {
+    max-width: 900px;
+}
+
+.teams-container {
+    flex: 1.3;
+    text-align: left;
+    margin: 5;
+    padding-left: 5%;
+}
+
+.lines-container {
+    display: flex;
+    flex: 3;
+    text-align: center;
+}
+
+.flex1 {
+    flex:1;
+    background-color: rgb(144, 144, 145);
+    margin: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
