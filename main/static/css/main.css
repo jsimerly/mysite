@@ -1,16 +1,13 @@
-* {
+/* * {
     border: solid 1px red;
   }
 
 div {
     border: 1px solid blue;
-}
-
-table {
-  border: 1px solid green;
-}
+} */
 
 body,html {
+  background-color: rgb(234, 240, 239);
   margin:0;
   padding:0;
 }
@@ -27,9 +24,19 @@ a {
   color: white;
 }
 
-.top-nav {
+.max-width {
+  max-width: 1440px;
+  margin-right: 10%;
+  margin-left: 12%
+}
+
+.nav-container {
   display: flex;
-  background-color: black;
+  padding: 0%;
+}
+
+.nav-background {
+  background-color: grey;
   padding: .5%;
 }
 
@@ -48,26 +55,50 @@ a {
 }
 
 .account-nav {
-  display: flex;
   flex: 1;
   text-align: center;
   margin: auto;  
 }
 
-.btn-nav {
+.style-nav {
+  color:black;
+  font-size: 100%;
+}
+
+.btn-style-nav {
   margin: 2%;
-  color: white;
-  font-size: 32;
+  font-size: 150%;
+}
+
+.account-container {
+  display: flex;
+}
+
+.account-picture {
+  flex:4;
+  text-align: right;
+}
+
+.account-arrow{
+  flex:1;
+  text-align: center;
+  margin: auto;
 }
 
 .circle-square {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
   border-radius: 50%;
 }
 
-.dropbtn {
-  color: white;
-  padding: 16px;
-  font-size: 16px;
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.account-btn {
   border: none;
   cursor: pointer;
 }
@@ -88,15 +119,6 @@ a {
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #ddd}
+.dropdown-content a:hover {background-color: red}
 
 .show {display:block;}
-
-.arrow-down {
-  width: 0; 
-  height: 0; 
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  
-  border-top: 20px solid #f00;
-}

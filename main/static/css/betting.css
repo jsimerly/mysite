@@ -6,3 +6,8 @@
     grid-row: row;
     gap: 3px;
 }
+
+.betting-grid-margin {
+    margin: 0 auto;
+    max-width: 1440px;
+}

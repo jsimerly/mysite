@@ -6,37 +6,46 @@
   <link rel="stylesheet" type="text/css" href={% static 'css/main.css' %}/>
 </head>
 <body>
-  <div class='top-nav'>
-    <div class='logo-nav'>
-      <div>
-        <img src={% static 'images/fishershse.jpg' %} alt="" height='40'>
-      </div>
-      <div>
-        <a class='logo-text' href="#">Stuck in Highschool Sportsbook</a>
-      </div>
-    </div>
-    <div class='content-nav'> 
-      <a class='btn-nav' href="#">Home</a>
-      <a class='btn-nav' href="#">Stats</a>
-      <a class='btn-nav' href="#">Teams</a>
-      <a class='btn-nav' href="#">Bets</a>
-      <a class='btn-nav' href="#">History</a>
-    </div>
-    <div class='account-nav'>
-      <div class='dropdown'>
-        <img onclick='myFunction()' class = 'dropbtn circle-square' src={%static 'images/barrack.jpg' %} alt="", height ='80'>
-                <div id="myDropdown" class="dropdown-content">
-          <a href="#">Account</a>
-          <a href="#">Profile</a>
-          <a style='border-top: 1px solid black'href="#">Sign Out</a>
+    <div class='nav-background'>
+        <div class='max-width'>
+            <div class='nav-container nav-background'>
+                <div class='logo-nav'>
+                    <div>
+                        <img src={% static 'images/fishershse.jpg' %} alt="" height='40'>
+                    </div>
+                    <div>
+                        <a class='style-nav' href="#">Stuck in Highschool Sportsbook</a>
+                    </div>
+                </div>
+                <div class='content-nav'>
+                    <a class='btn-style-nav style-nav' href="#">Home</a>
+                    <a class='btn-style-nav style-nav' href="#">Stats</a>
+                    <a class='btn-style-nav style-nav' href="#">Teams</a>
+                    <a class='btn-style-nav style-nav' href="#">Bets</a>
+                    <a class='btn-style-nav style-nav' href="#">History</a>
+                </div>
+                <div class='account-nav'>
+                    <div class='account-container'>
+                        <div class='account-picture'>
+                            <img onclick='dropDown()' class ='account-btn circle-square' src={%static 'images/barrack.jpg' %} alt="", height ='80'>
+                            <div id='account-dropdown' class='dropdown-content'>
+                                <a href="#">Account</a>
+                                <a href="#">Profile</a>
+                                <a style='border-top: 1px solid black'href="#">Sign Out</a>
+                            </div>
+                        </div>
+                        
+                        <div onclick='dropDown()'class='account-btn account-arrow'>
+                            V
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>    
     </div>
-  </div>
-  <script type='text/javascript' src={% static 'js/script.js' %}></script>
 
-  {% block content %}
-  {% endblock content %}
+    {% block content %}
+    {% endblock content %}
 
+    <script type='text/javascript' src={% static 'js/script.js' %}></script>
 </body>
-</html>

@@ -9,35 +9,50 @@ SIH Sportsbook
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href={% static 'css/betting.css' %}/>
-    <h1>Matchups</h1>
-
-        {% for match in matchups %}
-            Matchup {{match.matchupId}}
-            <div class='betting-grid-container'>
-                <div>
-                    {{match.team1.funName}}
+    <div class='betting-grid-margin'>
+        <h1>Matchups</h1>
+            {% for match in matchups %}
+                <div class='betting-grid-container'>
+                    <div>
+                        <div>Matchup {{match.matchupId}}</div>
+                    </div>
+                    <div>
+                        <div>Total</div>
+                    </div>
+                    <div>
+                        <div>Spread</div>
+                    </div>
+                    <div>
+                        <div>Moneyline</div>
+                    </div>
                 </div>
-                <div>
-                    {{match.overUnder}}
+                
+                <div class='betting-grid-container'>
+                    <div>
+                        {{match.team1.funName}}
+                    </div>
+                    <div>
+                        {{match.overUnder}}
+                    </div>
+                    <div>
+                        {{match.spreadT1}}
+                    </div>
+                    <div>
+                        {{match.team1Ml}}
+                    </div>
+                    <div>
+                        {{match.team2.funName}}
+                    </div>
+                    <div>
+                        {{match.overUnder}}
+                    </div>
+                    <div>
+                        {{match.spreadT1}}
+                    </div>
+                    <div>
+                        {{match.team2Ml}}
+                    </div>
                 </div>
-                <div>
-                    {{match.spreadT1}}
-                </div>
-                <div>
-                    {{match.team1Ml}}
-                </div>
-                <div>
-                    {{match.team2.funName}}
-                </div>
-                <div>
-                    {{match.overUnder}}
-                </div>
-                <div>
-                    {{match.spreadT1}}
-                </div>
-                <div>
-                    {{match.team2Ml}}
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+    </div>
 {% endblock %}
