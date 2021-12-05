@@ -136,7 +136,8 @@ class Static():
                         'P.J. Walker':4335
                 },
                 'te':{
-                        'Chris Herndon' : 5009
+                        'Chris Herndon' : 5009,
+                        'Dan Brown' : 2751
                 },
                 'k':{
                 

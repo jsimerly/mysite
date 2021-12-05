@@ -10,29 +10,36 @@ SIH Sportsbook
 <link rel="stylesheet" type="text/css" href={% static 'css/betting.css' %}/>
     <div class='max-width'>
         <h1>Matchups</h1>
+        
         <div class="betting-max-width">
             <div>
                 <div class='betting-container'>
-                    <div class='teams-container'>
-                        Matchup
-                    </div>
+                    <div class='teams-container'></div>
                     <div class='lines-container'>
-                        <div class='flex1'> Total </div>
-                        <div class='flex1'> Spread </div>
-                        <div class='flex1'> Moneyline </div>
+                        <div class='total-spread-moneyline'> Total </div>
+                        <div class='total-spread-moneyline'> Spread </div>
+                        <div class='total-spread-moneyline'> Moneyline </div>
                     </div>
                 </div>
             </div>
-            hey
             {% for match in matchups %}
+                <div class='grey-color'>
+                    <div class='break-line'></div>
+                </div>
                 <div class='betting-container'>
                     <div class='teams-container'>
                         {{match.team1.funName}}
                     </div>
                     <div class='lines-container'>
-                        <div class='flex1'> O {{match.overUnder|floatformat:"0"}} </div>
-                        <div class='flex1'> {{match.spreadT1|floatformat:"0"}} </div>
-                        <div class='flex1'> {{match.team1Ml|floatformat:"0"}} </div>
+                        <a onclick='selectBet()' class='flex1 totalSpread' href='#'>
+                                <div class='line'> O {{match.getOverUnder}} </div>
+                                <div class='vig'>-110</div>
+                        </a>
+                        <a class='flex1 totalSpread'  href='#'>
+                            <div class='line'> {{match.getSpreadT1}} </div>
+                            <div class='vig'>-110</div>  
+                        </a>                   
+                        <a class='flex1'  href='#'> {{match.getMoneyLineT1}} </a>
                     </div>
                 </div>
                 <div class="betting-container">
@@ -40,13 +47,19 @@ SIH Sportsbook
                         {{match.team2.funName}}
                     </div>
                     <div class='lines-container'>
-                        <div class='flex1'> U {{match.overUnder|floatformat:"0"}} </div>
-                        <div class='flex1'> {{match.spreadT1|floatformat:"0"}} </div>
-                        <div class='flex1'> {{match.team2Ml|floatformat:"0"}} </div>
+                        <a class="flex1 totalSpread"  href='#'>
+                            <div class="line">U {{match.getOverUnder}}</div>
+                            <div class="vig">-110</div>
+                        </a>
+                        <a class="flex1 totalSpread" href='#'>
+                            <div class="line">{{match.getSpreadT2}}</div>
+                            <div class="vig">-110</div>
+                        </a>
+                        
+                        <a class='flex1'  href='#'> {{match.getMoneyLineT2}} </a>
                     </div>
                 </div>
                 <div>
-                    hey
                 </div>
             {% endfor %}
         </div>

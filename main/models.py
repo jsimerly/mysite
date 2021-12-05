@@ -56,5 +56,37 @@ class Matchup(models.Model):
     team1Ml = models.FloatField(null=True)
     team2Ml = models.FloatField(null=True)
 
+    def getMoneyLineT1(self):
+        if self.team1Ml > 0:
+            return '+' + str(round(self.team1Ml))
+        else:
+            
+            return str(round(self.team1Ml))
+            
+
+    def getMoneyLineT2(self):
+        if self.team2Ml > 0:
+            return '+' + str(round(self.team2Ml))
+        else:
+            return str(round(self.team2Ml))
+
+    def getOverUnder(self):
+        return round(self.overUnder)
+
+    def getSpreadT1(self):
+        if self.spreadT1 > 0 :
+            return '+' + str(round(self.spreadT1))
+        else:
+            return round(self.spreadT1)
+            
+
+    def getSpreadT2(self):
+        if self.spreadT1 < 0:
+            return '+' + str(round(self.spreadT2))
+        else:
+            return round(self.spreadT2)
+
+    
+
     
     

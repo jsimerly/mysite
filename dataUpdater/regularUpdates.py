@@ -89,8 +89,15 @@ class UsersRosters(ApiEndpoint, Scraper):
         return player
 
         
+    def updateAllProject(self):
+        self._rbProjection()
+        self._wrProjection()
+        self._qbProjection()
+        self._teProjection()
+        self._kProjection()
+        self._dstProjection()
 
-    def rbProjection(self):
+    def _rbProjection(self):
         projectionData = self.fetchRbProj()
         ratio = self.projDict['rb']
 
@@ -116,7 +123,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             player.save()
 
 
-    def wrProjection(self):
+    def _wrProjection(self):
         projectionData = self.fetchWrProj()
         ratio = self.projDict['wr']
 
@@ -143,7 +150,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             player.currentProj = proj
             player.save()           
 
-    def teProjection(self):
+    def _teProjection(self):
         projectionData = self.fetchTeProj()
         ratio = self.projDict['te']
 
@@ -166,7 +173,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             player.save()
             
     
-    def qbProjection(self):
+    def _qbProjection(self):
         projectionData = self.fetchQbProj()
         ratio = self.projDict['qb']
         
@@ -191,7 +198,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             player.currentProj = proj
             player.save()
 
-    def kProjection(self):
+    def _kProjection(self):
         projectionData = self.fetchKProj()
         
         for playerList in projectionData:
@@ -204,7 +211,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             player.save()
 
 
-    def dstProjection(self):
+    def _dstProjection(self):
         projectionData = self.fetchDstProj()
 
         for playerList in projectionData:
