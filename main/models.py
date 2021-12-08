@@ -22,6 +22,58 @@ class FantasyTeam(models.Model):
     spreadWin = models.IntegerField(default=0)
     spreadLoss =models.IntegerField(default=0)
 
+    def getStarters(self):
+        allPlayer = self.player_set.all()
+        qb = allPlayer.filter(pos='QB')
+        rb = allPlayer.filter(models.Q(pos='RB') | models.Q(pos='FB'))
+        wr = allPlayer.filter(pos='WR')
+        te = allPlayer.filter(pos='TE')
+        k = allPlayer.filter(pos='K')
+        dst = allPlayer.filter(pos='DEF')
+
+        qb1 = qb.order_by('-currentProj')[0]
+        qb = qb.exclude(id=qb1.id)
+
+        rb1 = rb.order_by('-currentProj')[0]
+        rb = rb.exclude(id=rb1.id)
+
+        rb2 = rb.order_by('-currentProj')[0]
+        rb = rb.exclude(id=rb2.id)
+
+        wr1 = wr.order_by('-currentProj')[0]
+        wr = wr.exclude(id=wr1.id)
+
+        wr2 = wr.order_by('-currentProj')[0]
+        wr = wr.exclude(id=wr2.id)
+
+        te1 = te.order_by('-currentProj')[0]
+        te = te.exclude(id=te1.id)
+
+        k1 = k.order_by('-currentProj')[0]
+        k = k.exclude(id=k1.id)
+        
+        dst1 = dst.order_by('-currentProj')[0]
+        dst = dst.exclude(id=dst1.id)
+        
+        flex = rb | wr | te
+        flex1 = flex.order_by('-currentProj')[0]
+        flex = flex.exclude(id=flex1.id)
+        
+        superFlex = flex | qb
+        superFlex1 = superFlex.order_by('-currentProj')[0]
+        superFlex.exclude(id=superFlex1.id)
+
+        starters = [qb1, rb1, rb2, wr1, wr2, te1,  flex1, superFlex1, k1, dst1]
+        bench = qb | rb | wr | te | k | dst
+
+        return (starters,bench)
+
+    def getBestFreeAgent(self,pos):
+        freeAgentTeam = self.objects.filter(sleeperName='FreeAgent')
+        freeAgents = freeAgentTeam.player.filter(pos=pos)
+        best = freeAgents.order_by('-currentProj')[0]
+        return best.currentProj
+
 class ServerInfo(models.Model):
     lastLineUpdate = models.DateTimeField(null=True)
     lastProjUpdate = models.DateTimeField(null=True)
@@ -50,6 +102,9 @@ class Player(models.Model):
     nflTeam = models.CharField(max_length=4, null=True)
 
     currentProj = models.FloatField(default=0)
+
+    def getProj(self):
+        return str(round(self.currentProj, 2))
 
 class PlayerHistory(models.Model):
     player = models.ForeignKey(Player, on_delete=models.PROTECT)
