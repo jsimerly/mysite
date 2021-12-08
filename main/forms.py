@@ -7,10 +7,31 @@ class PlaceBet(forms.Form):
     bet = forms.CharField(label="Bet", max_length=3)
 
 class CreateUserForm(UserCreationForm):
-    sleeperId = forms.IntegerField()
+    sleeperId = forms.CharField(max_length=18, required=True, label='Sleeper Id')
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'sleeperId']
+
+    def clean_sleeperId(self):
+        id = self.cleaned_data.get('sleeperId')
+        print('id cleaned')
+        
+        if not self._idExists(id):
+            
+            raise forms.ValidationError('Your Sleeper ID does not exist.')
+        return id
+
+    def _idExists(self, id):
+        fantasyTeams = FantasyTeam.objects.all()
+        for team in fantasyTeams:
+            print(id)
+            print(team.sleeperId)
+            if id == team.sleeperId:
+                return True
+            else:
+                pass
+
+        return False
 
 class AuthenticationFormWithInActiveUsers(AuthenticationForm):
     def confirm_login_allowed(self, user):

@@ -8,27 +8,31 @@ Register
 {% load static %}
     <form method='POST' action="">
         {% csrf_token %}
-        <div style='text-align: center'>
+        <div>
             {{form.username.label}}
             {{form.username}}
         </div>
-        <div style='text-align: center'>
+        <div>
             {{form.email.label}}
             {{form.email}}
         </div>
-        <div style='text-align: center'>
+        <div>
             {{form.password1.label}}
             {{form.password1}}
         </div>
-        <div style='text-align: center'>
+        <div>
             {{form.password2.label}}
             {{form.password2}}
         </div>
-        {% for message in messages %}
-            <p>{{message}}</p>
-        {% endfor %}
-        <div style='text-align: center'>
-            <input type="submit" name='Create User'>
+        <div>
+            {{form.sleeperId.label}}
+            {{form.sleeperId}}
+        </div>
+            {% for error in form.non_field_errors %}
+                <p>{{error}}</p>
+            {% endfor %}
+        <div >
+            <input type="submit" name='createUser' value='Create User'>
         </div>
     </form>
 {% endblock %}
