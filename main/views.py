@@ -70,7 +70,11 @@ def logoutUser(response):
     logout(response)
     return redirect('home')
     
-
+def teams(response):
+    noFa = FantasyTeam.objects.all().exclude(sleeperName='FreeAgent')
+    context = {'teams': noFa}
+    return render(response, "main/teams.html", context)
+    
 def index(response):
     now = timezone.now()
     lastLineUpdate = serverInfo.lastLineUpdate

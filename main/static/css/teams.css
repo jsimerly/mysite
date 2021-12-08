@@ -1,0 +1,37 @@
+
+.teams-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.team-container{
+    flex: 1;
+    min-width: 25%;
+    max-width: 100px;
+    margin-right: 1%;
+    margin-left: 1%;
+    padding: 2%;
+    text-align: center;
+}
+
+.player-container{
+    display: flex;
+}
+
+.name-container{
+    flex: 3;
+    padding: 3%;
+    text-align: left;
+    background: lightgrey;
+    color:black;
+    margin: 1px;
+}
+
+.proj-container{
+    flex: 1;
+    padding: 3%;
+    text-align: center;
+    background: lightgrey;
+    color: black;
+    margin: 1px
+}

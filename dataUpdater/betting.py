@@ -4,14 +4,13 @@ from typing import Match
 from django.db import models
 from django.db.models.fields import NullBooleanField
 from .static import Static
-from main.models import FantasyTeam, Matchup, ServerInfo
+from main.models import FantasyTeam, Matchup, Player
 from django.db.models import Q
 import numpy as np
 
 class CreateLines():
     allTeams = FantasyTeam.objects.all()
     noFA = allTeams.exclude(sleeperName='FreeAgent')
-    serverInfo = ServerInfo.objects.get(id=1)
     static = Static()
 
     def updateAllLines(self):
@@ -81,72 +80,16 @@ class CreateLines():
         teams = self.noFA
 
         for team in teams:
-            allPlayer = team.player_set.all()
-            qb = allPlayer.filter(pos='QB')
-            rb = allPlayer.filter(Q(pos='RB') | Q(pos='FB'))
-            wr = allPlayer.filter(pos='WR')
-            te = allPlayer.filter(pos='TE')
-            k = allPlayer.filter(pos='K')
-            dst = allPlayer.filter(pos='DEF')
+            total = 0
+            starters = team.getStarters()
+            for player in starters[0]:
+                if player.currentProj <= 0:
+                    freeAgents = Player.objects.filter(Q(pos=player.pos) & Q(currentTeam_id=11))         
+                    best = freeAgents.order_by('-currentProj')[0]
+                    total += best.currentProj
+                else:                    
+                    total += player.currentProj
 
-           
-            qb1 = qb.order_by('-currentProj')[0]
-            qb = qb.exclude(id=qb1.id)
-            qb1.starter = True
-            # qb1.save()
-
-            rb1 = rb.order_by('-currentProj')[0]
-            rb = rb.exclude(id=rb1.id)
-            rb1.starter = True
-            # rb1.save()
-            rb2 = rb.order_by('-currentProj')[0]
-            rb = rb.exclude(id=rb2.id)
-            rb2.starter = True
-            # rb2.save()
-
-            wr1 = wr.order_by('-currentProj')[0]
-            wr = wr.exclude(id=wr1.id)
-            wr1.starter = True
-            # wr1.save()
-            wr2 = wr.order_by('-currentProj')[0]
-            wr = wr.exclude(id=wr2.id)
-            wr2.starter = True
-            # wr2.save()
-
-            te1 = te.order_by('-currentProj')[0]
-            te = te.exclude(id=te1.id)
-            te1.starter = True
-            # te1.save()
-
-            k1 = k.order_by('-currentProj')[0]
-            k.starter = True
-            # k1.save()
-            
-            dst1 = dst.order_by('-currentProj')[0]
-            k.starter = True
-            # dst1.save()
-            
-            flex = rb | wr | te
-            flex1 = flex.order_by('-currentProj')[0]
-            flex.exclude(id=flex1.id)
-            # flex1.save()
-            
-
-            superFlex = flex | qb
-            superFlex1 = superFlex.order_by('-currentProj')[0]
-            # superFlex1.save()
-
-            total = (qb1.currentProj + 
-                        rb1.currentProj + 
-                        rb2.currentProj + 
-                        wr1.currentProj + 
-                        wr2.currentProj + 
-                        te1.currentProj + 
-                        k1.currentProj + 
-                        dst1.currentProj + 
-                        flex1.currentProj + 
-                        superFlex1.currentProj)
-            
             team.currentProj = total
             team.save()
             print(team.funName + ": " + str(total))

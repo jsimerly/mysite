@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+SIH Sportsbook
+{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href={% static 'css/teams.css' %}/>
+<div class='max-width'>
+    <div class="teams-container">
+        {% for team in teams %}
+            <div class="team-container">
+                <h2>{{team.funName}}</h2>
+                {% for player in team.getStarters.0 %}
+                    <div class='player-container'>
+                        <div class='proj-container'>
+                            {{player.pos}}
+                        </div>
+                        <div class='name-container'>
+                            {{player.name}}
+                        </div>
+                        <div class="proj-container">
+                            {{player.getProj}}
+                        </div>
+                    </div>                    
+                {% endfor %}
+                <div>
+                    ---------------------
+                </div>
+                {% for player in team.getStarters.1 %}
+                    <div class='player-container'>
+                        <div class='proj-container'>
+                            BN
+                        </div>
+                        <div class='name-container'>
+                            {{player.name}}
+                        </div>
+                        <div class="proj-container">
+                            {{player.getProj}}
+                        </div>
+                    </div>                    
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock content %}
