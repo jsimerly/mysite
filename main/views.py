@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from datetime import datetime, time, timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -24,11 +23,11 @@ def registerPage(response):
         
         if form.is_valid():
             form.save()         
-            username = form.cleaned_data.get('username')
-            messages.success(response, 'Account was created for ' + username)
             
             return redirect('loginPage')
-        
+        else:
+            print(form.errors)
+                   
     else:
         form = CreateUserForm()
 
