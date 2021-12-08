@@ -3,10 +3,13 @@ from io import open_code
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.deletion import PROTECT
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class FantasyTeam(models.Model):
+    user = models.ForeignKey(User, verbose_name='User', related_name='fantasyTeam',
+                            on_delete=models.PROTECT, null=True)
     sleeperId = models.CharField(max_length=12, null=True)
     sleeperName = models.CharField(max_length=50)
     rosterId = models.IntegerField(null=True)
@@ -19,9 +22,27 @@ class FantasyTeam(models.Model):
     spreadWin = models.IntegerField(default=0)
     spreadLoss =models.IntegerField(default=0)
 
+class ServerInfo(models.Model):
+    lastLineUpdate = models.DateTimeField(null=True)
+    lastProjUpdate = models.DateTimeField(null=True)
+    lastMatchupUpdate = models.DateTimeField(null=True)
+    
+
+class Proxy(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    sleeperId = models.IntegerField(default=0)
+    weeklyBalance = models.FloatField(default=0)
+    balance = models.FloatField(default=0)
+
+class Bets(models.Model):
+    user = models.ForeignKey(User, verbose_name='User', related_name='bets',
+                                    on_delete=models.PROTECT, null=True)
+    wager = models.FloatField(default=0)
+    wagerType = models.CharField(null=True, max_length=10)
    
 class Player(models.Model):
     currentTeam = models.ForeignKey(FantasyTeam, on_delete=models.CASCADE, default=11)
+    starter = models.BooleanField(default=False)
     name = models.CharField(max_length=50)
     age = models.IntegerField(null=True)
     sleeperId = models.CharField(max_length = 6,null=True)

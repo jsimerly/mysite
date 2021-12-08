@@ -115,7 +115,7 @@ class Static():
                                 "xp":1}}
 
         multipleNames = {
-                'rb':{
+                'RB':{
                         'Najee Harris' : 7528,
                         'Tony Jones' : 6984,
                         'David Johnson' : 2391,
@@ -123,7 +123,7 @@ class Static():
                         'Elijah Mitchell' : 7561,
                         'Taiwan Jones' : 886
                 },
-                'wr':{
+                'WR':{
                         'D.K. Metcalf' : 584,
                         'D.J. Moore' : 4983,
                         'Will Fuller V':3157,
@@ -132,17 +132,17 @@ class Static():
                         'KhaDarel Hodge': 5773,
                         'Matthew Slater':312
                 },
-                'qb':{
+                'QB':{
                         'P.J. Walker':4335
                 },
-                'te':{
+                'TE':{
                         'Chris Herndon' : 5009,
                         'Dan Brown' : 2751
                 },
-                'k':{
+                'K':{
                 
                 },
-                'dst':
+                'DEF':
                 {
                         'Pittsburgh Steelers' : 'PIT',
                         'Philadelphia Eagles': 'PHI',

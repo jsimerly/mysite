@@ -1,17 +1,26 @@
+from django.utils import timezone
 from re import match
 from typing import Match
 from django.db import models
 from django.db.models.fields import NullBooleanField
 from .static import Static
-from main.models import FantasyTeam, Matchup
+from main.models import FantasyTeam, Matchup, ServerInfo
+from django.db.models import Q
 import numpy as np
 
 class CreateLines():
     allTeams = FantasyTeam.objects.all()
     noFA = allTeams.exclude(sleeperName='FreeAgent')
+    serverInfo = ServerInfo.objects.get(id=1)
     static = Static()
 
-    def createSpread(self):
+    def updateAllLines(self):
+        self._createSpread()
+        self._createOU()
+        self._createML()
+
+
+    def _createSpread(self):
         matchups = Matchup.objects.all()
 
         for matchup in matchups:
@@ -23,7 +32,7 @@ class CreateLines():
 
             matchup.save()
 
-    def createOU(self):
+    def _createOU(self):
         matchups = Matchup.objects.all()
 
         for matchup in matchups:
@@ -32,12 +41,11 @@ class CreateLines():
 
             matchup.save()
 
-    def createML(self):
+    def _createML(self):
         matchups = Matchup.objects.all()
         vig = self.static.vig
 
         for matchup in matchups:
-            print('---------------------------------')
             spread = abs(matchup.spreadT1)
             percentSpread = (1/1.75)*np.log(spread*.0175+1)
 
@@ -49,18 +57,14 @@ class CreateLines():
             favOdds += vig/2
             undOdds += vig/2
 
-            print(favOdds)
-            print(undOdds)
-
+            
             posML = (-1*favOdds/(1-favOdds)*100)
             if undOdds < .5:
                 negML = ((1-undOdds)/undOdds)*100
             else:
                 negML = (-1*undOdds/(1-undOdds)*100)
 
-            print(posML)
-            print(negML)
-
+            
             if matchup.team1.currentProj > matchup.team2.currentProj:
                 matchup.team1Ml = posML
                 matchup.team2Ml = negML
@@ -72,68 +76,83 @@ class CreateLines():
                 matchup.team2Ml = -110
 
             matchup.save()
-            print(matchup.team1)
-            print(matchup.team1Ml)
-            print(matchup.team2)
-            print(matchup.team2Ml)
-
-
+            
     def createLineUp(self):
         teams = self.noFA
 
         for team in teams:
-            qb = []
-            rb = []
-            wr = []
-            te = []
-            k = []
-            dst = []
+            allPlayer = team.player_set.all()
+            qb = allPlayer.filter(pos='QB')
+            rb = allPlayer.filter(Q(pos='RB') | Q(pos='FB'))
+            wr = allPlayer.filter(pos='WR')
+            te = allPlayer.filter(pos='TE')
+            k = allPlayer.filter(pos='K')
+            dst = allPlayer.filter(pos='DEF')
 
-            for player in team.player_set.all():
-                if player.pos == 'QB':
-                    qb.append(player.currentProj)
-                elif player.pos == 'RB':
-                    rb.append(player.currentProj)
-                elif player.pos == 'WR':
-                    wr.append(player.currentProj)
-                elif player.pos == 'TE':
-                    te.append(player.currentProj)
-                elif player.pos == 'K':
-                    k.append(player.currentProj)
-                elif player.pos == 'DEF':
-                    dst.append(player.currentProj)
-                else:
-                    print('position not recognized')
+           
+            qb1 = qb.order_by('-currentProj')[0]
+            qb = qb.exclude(id=qb1.id)
+            qb1.starter = True
+            # qb1.save()
 
-            qb1 = max(qb)
-            qb.remove(qb1)
+            rb1 = rb.order_by('-currentProj')[0]
+            rb = rb.exclude(id=rb1.id)
+            rb1.starter = True
+            # rb1.save()
+            rb2 = rb.order_by('-currentProj')[0]
+            rb = rb.exclude(id=rb2.id)
+            rb2.starter = True
+            # rb2.save()
 
-            rb1 = max(rb)
-            rb.remove(rb1)
-            rb2 = max(rb)
-            rb.remove(rb2)
+            wr1 = wr.order_by('-currentProj')[0]
+            wr = wr.exclude(id=wr1.id)
+            wr1.starter = True
+            # wr1.save()
+            wr2 = wr.order_by('-currentProj')[0]
+            wr = wr.exclude(id=wr2.id)
+            wr2.starter = True
+            # wr2.save()
 
-            wr1 = max(wr)
-            wr.remove(wr1)
-            wr2 = max(wr)
-            wr.remove(wr2)
+            te1 = te.order_by('-currentProj')[0]
+            te = te.exclude(id=te1.id)
+            te1.starter = True
+            # te1.save()
 
-            te1 = max(te)
-            te.remove(te1)
+            k1 = k.order_by('-currentProj')[0]
+            k.starter = True
+            # k1.save()
+            
+            dst1 = dst.order_by('-currentProj')[0]
+            k.starter = True
+            # dst1.save()
+            
+            flex = rb | wr | te
+            flex1 = flex.order_by('-currentProj')[0]
+            flex.exclude(id=flex1.id)
+            # flex1.save()
+            
 
-            k1 = max(k)
+            superFlex = flex | qb
+            superFlex1 = superFlex.order_by('-currentProj')[0]
+            # superFlex1.save()
 
-            dst1 = max(dst)
-
-            flex = rb + wr + te
-            flex1 = max(flex)
-            flex.remove(flex1)
-
-            superFlex = flex + qb
-            superFlex1 = max(superFlex)
-
-            total = qb1 + rb1 + rb2 + wr1 + wr2 + te1 + k1 + dst1 + flex1 + superFlex1
+            total = (qb1.currentProj + 
+                        rb1.currentProj + 
+                        rb2.currentProj + 
+                        wr1.currentProj + 
+                        wr2.currentProj + 
+                        te1.currentProj + 
+                        k1.currentProj + 
+                        dst1.currentProj + 
+                        flex1.currentProj + 
+                        superFlex1.currentProj)
             
             team.currentProj = total
             team.save()
+            print(team.funName + ": " + str(total))
 
+
+            
+        
+            
+    

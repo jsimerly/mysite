@@ -46,9 +46,8 @@ class AllPlayers(ApiEndpoint):
                     try:
                         player.nflTeam = js[playerId]['team']
                     except:
-                        print('nflTaem - error with {}'.format(playerId))
+                        print('nflTeam - error with {}'.format(playerId))
 
-                    
                 player.save()
 
     def updateMatchups(self):
@@ -96,7 +95,6 @@ class AllPlayers(ApiEndpoint):
             matchup.team1 = matchupList[i][0]
             matchup.team2 = matchupList[i][1]
             
-            print(matchup.team1)
-            print(matchup.team2)
+            print(matchup.team1.funName + ' vs ' + matchup.team2.funName)
             matchup.save()
             

@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+<h1>login</h1>
+
+{% block content %}
+{% load static %}
+    <form method='POST' action="">
+        {% csrf_token %}
+        <div style='text-align: center'>
+            {{form.username.label}}:
+            {{form.username}}
+        </div>
+        <div style='text-align: center'>
+            {{form.password.label}}:
+            {{form.password}}
+        </div style='text-align: center'>
+        <div style='text-align: center'>
+            <input type="submit" name='login' value='Login'>
+        </div>
+        <div style='text-align: center'>
+            {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+        </div>      
+
+    </form>
+
+{% endblock content %}
+
+
+
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}

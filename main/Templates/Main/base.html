@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class='content-nav'>
-                    <a class='btn-style-nav style-nav' href="#">Home</a>
+                    <a class='btn-style-nav style-nav' href='/home/'}>Home</a>
                     <a class='btn-style-nav style-nav' href="#">Stats</a>
                     <a class='btn-style-nav style-nav' href="#">Teams</a>
                     <a class='btn-style-nav style-nav' href="#">Bets</a>
@@ -26,18 +26,39 @@
                 </div>
                 <div class='account-nav'>
                     <div class='account-container'>
-                        <div class='account-picture'>
+                        {% comment %} <div class='account-picture'>
                             <img onclick='dropDown()' class ='account-btn circle-square' src={%static 'images/barrack.jpg' %} alt="", height ='80'>
                             <div id='account-dropdown' class='dropdown-content'>
-                                <a href="#">Account</a>
+                                <a href="#">Register</a>
                                 <a href="#">Profile</a>
                                 <a style='border-top: 1px solid black'href="#">Sign Out</a>
                             </div>
-                        </div>
-                        
+                        </div>                        
                         <div onclick='dropDown()'class='account-btn account-arrow'>
                             V
-                        </div>
+                        </div> {% endcomment %}
+
+                        {% comment %} <div class='account-picture'>
+                            <a href="/login/">Sign-in or Register</a>
+                        </div> {% endcomment %}
+                        {% if user.is_authenticated %}
+                            <div class='account-picture'>
+                                <div>
+                                    ${{request.user.proxy.balance}}
+                                </div>
+                                <div>
+                                    Hello, {{request.user}}
+                                </div>                                
+                            </div>
+                            <div style='margin-left: 20px'>
+                                <a href="/logout/">Logout</a>
+                            </div>
+                        {% else %}
+                            <div class='account-picture'>
+                                <a href="/login/">Sign-in or Register</a>
+                            </div>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
@@ -47,7 +68,7 @@
     {% block content %}
     {% endblock content %}
 
-    <div>
+    <div style='text-align: center; margin-right: 5%; margin-top: 5%'>
         <h5> Last Roster and Projection Update: {{lastUpdate}}</h5>
     </div>
 

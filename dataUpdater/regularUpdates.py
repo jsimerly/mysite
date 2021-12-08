@@ -22,7 +22,7 @@ class UsersRosters(ApiEndpoint, Scraper):
                     team = FantasyTeam(sleeperId=user['user_id'])
                 
                 team.sleeperName = user['display_name']
-                team.rosterId = user['']
+                # team.rosterId = user['roster_id']
 
                 try:
                     team.funName = user['metadata']['team_name']
@@ -73,23 +73,38 @@ class UsersRosters(ApiEndpoint, Scraper):
         return name
 
     def _findPlayer(self, playerName, posStr, nflTeam):
-        try:
-            player = Player.objects.get(name=playerName)
-        except:
+
+        def lookForPlayer(playerObj, playerName):
             try:
-                playerName = self._cleanName(playerName)
-                player = Player.objects.get(name=playerName)
+                return playerObj.get(name=playerName)
             except:
                 try:
-                    player = Player.objects.get(name=playerName, nflTeam = nflTeam)
+                    playerName = self._cleanName(playerName)
+                    return playerObj.get(name=playerName)
                 except:
-                    playerId = self.nameDict[posStr][playerName]
-                    player = Player.objects.get(sleeperId=playerId)
+                    try:
+                        return playerObj.get(name=playerName, nflTeam = nflTeam)
+                    except:
+                        try:                    
+                            playerId = self.nameDict[posStr][playerName]
+                            return playerObj.get(sleeperId=playerId)
+                        except:
+                            pass
+                        
         
-        return player
-
+        posQuery = Player.objects.filter(pos=posStr)
+        player = lookForPlayer(posQuery, playerName)
+        
+        if player == None:
+            allQuery = Player.objects.all()
+            player =lookForPlayer(allQuery, playerName)
+            if player == None:
+                print('!! Player not found: ' + playerName + ' !!')
+        
+        return player     
         
     def updateAllProject(self):
+        Player.objects.all().update(currentProj=0)
         self._rbProjection()
         self._wrProjection()
         self._qbProjection()
@@ -118,7 +133,7 @@ class UsersRosters(ApiEndpoint, Scraper):
                     + rec * ratio['rec']
                     + fum * ratio['fum'])
 
-            player = self._findPlayer(playerName, 'rb', nflTeam)
+            player = self._findPlayer(playerName, 'RB', nflTeam)
             player.currentProj = proj
             player.save()
 
@@ -145,7 +160,7 @@ class UsersRosters(ApiEndpoint, Scraper):
                     + rec * ratio['rec']
                     + fum * ratio['fum'])
             
-            player = self._findPlayer(playerName,'wr', nflTeam)
+            player = self._findPlayer(playerName,'WR', nflTeam)
 
             player.currentProj = proj
             player.save()           
@@ -167,7 +182,7 @@ class UsersRosters(ApiEndpoint, Scraper):
                     + rec * ratio['rec']
                     + fum * ratio['fum'])
             
-            player = self._findPlayer(playerName, 'te', nflTeam)
+            player = self._findPlayer(playerName, 'TE', nflTeam)
 
             player.currentProj = proj
             player.save()
@@ -194,7 +209,7 @@ class UsersRosters(ApiEndpoint, Scraper):
                     + rushTds * ratio['rushTds']
                     + fum * ratio['fum'])
 
-            player = self._findPlayer(playerName, 'qb', nflTeam)
+            player = self._findPlayer(playerName, 'QB', nflTeam)
             player.currentProj = proj
             player.save()
 
@@ -206,7 +221,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             nflTeam = playerList[5]
             proj = playerList[4]
 
-            player = self._findPlayer(playerName, 'k', nflTeam)
+            player = self._findPlayer(playerName, 'K', nflTeam)
             player.currentProj = proj
             player.save()
 
@@ -219,7 +234,7 @@ class UsersRosters(ApiEndpoint, Scraper):
             nflTeam = 'null'
             proj = playerList[9]
 
-            player = self._findPlayer(playerName, 'dst', nflTeam)
+            player = self._findPlayer(playerName, 'DEF', nflTeam)
             player.currentProj = proj
             player.save()
 
