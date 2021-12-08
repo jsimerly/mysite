@@ -14,18 +14,15 @@ class CreateUserForm(UserCreationForm):
 
     def clean_sleeperId(self):
         id = self.cleaned_data.get('sleeperId')
-        print('id cleaned')
         
         if not self._idExists(id):
-            
+            print('should have raised')
             raise forms.ValidationError('Your Sleeper ID does not exist.')
         return id
 
     def _idExists(self, id):
         fantasyTeams = FantasyTeam.objects.all()
         for team in fantasyTeams:
-            print(id)
-            print(team.sleeperId)
             if id == team.sleeperId:
                 return True
             else:

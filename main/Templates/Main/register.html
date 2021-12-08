@@ -28,9 +28,14 @@ Register
             {{form.sleeperId.label}}
             {{form.sleeperId}}
         </div>
-            {% for error in form.non_field_errors %}
-                <p>{{error}}</p>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <div>
+                        {{error}}
+                    </div>                   
+                {% endfor %}
             {% endfor %}
+            
         <div >
             <input type="submit" name='createUser' value='Create User'>
         </div>
