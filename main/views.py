@@ -18,27 +18,20 @@ weeklyUpdates = AllPlayers()
 serverInfo = ServerInfo.objects.get(id=1)
 
 def registerPage(response):
-    print('1')
     if response.method == 'POST' :
-        print('2')
         form = CreateUserForm(response.POST)
         
+        
         if form.is_valid():
-            print('3')
-            user = form.save()
-
-           
-            
+            form.save()         
             username = form.cleaned_data.get('username')
             messages.success(response, 'Account was created for ' + username)
             
             return redirect('loginPage')
+        
     else:
-        print('4')
         form = CreateUserForm()
 
-
-    print('5')
     context = {'form':form,}
     return render(response, 'main/register.html', context)
 
@@ -59,7 +52,7 @@ def loginPage(response):
         if user is not None:
             print('user not none')
             login(response, user)
-            return redirect('home')
+            return redirect('index')
         else:
             messages.info(response, 'Username or password is incorrect')
         
@@ -68,7 +61,7 @@ def loginPage(response):
 
 def logoutUser(response):
     logout(response)
-    return redirect('home')
+    return redirect('index')
     
 def teams(response):
     noFa = FantasyTeam.objects.all().exclude(sleeperName='FreeAgent')
