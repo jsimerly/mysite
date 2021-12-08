@@ -1,63 +1,137 @@
-from django.shortcuts import render
-from django.http import HttpResponse, response, HttpResponseRedirect
-from .models import FantasyTeam, Matchup
-from . forms import PlaceBet
-from dataUpdater.regularUpdates import UsersRosters
-from dataUpdater.betting import CreateLines
-from datetime import date, datetime, timedelta
+from django.shortcuts import render, redirect
+from datetime import datetime, time, timedelta
+from django.utils import timezone
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
+#my imports
+from . forms import CreateUserForm, AuthenticationFormWithInActiveUsers
+from dataUpdater.regularUpdates import UsersRosters
+from dataUpdater.playerUpdates import AllPlayers
+from dataUpdater.betting import CreateLines
+from .models import FantasyTeam, Matchup, ServerInfo
 
 # Create your views here.
 createLines = CreateLines()
 commonUpdates = UsersRosters()
-serverStart = datetime.now()
-lastUpdate = serverStart
+weeklyUpdates = AllPlayers()
+serverInfo = ServerInfo.objects.get(id=1)
+
+def registerPage(response):
+    print('1')
+    if response.method == 'POST' :
+        print('2')
+        form = CreateUserForm(response.POST)
+        
+        if form.is_valid():
+            print('3')
+            user = form.save()
+
+           
+            
+            username = form.cleaned_data.get('username')
+            messages.success(response, 'Account was created for ' + username)
+            
+            return redirect('loginPage')
+    else:
+        print('4')
+        form = CreateUserForm()
+
+
+    print('5')
+    context = {'form':form,}
+    return render(response, 'main/register.html', context)
+
+def loginPage(response):
+    form = AuthenticationFormWithInActiveUsers()
+
+    if response.method == 'POST':
+        form = AuthenticationFormWithInActiveUsers(response.POST)
+
+        username = response.POST.get('username')
+        password = response.POST.get('password')
+
+        print(username)
+        print(password)
+
+        user = authenticate(response, username=username, password=password)
+
+        if user is not None:
+            print('user not none')
+            login(response, user)
+            return redirect('home')
+        else:
+            messages.info(response, 'Username or password is incorrect')
+        
+    context = {'form':form}
+    return render(response, 'main/login.html', context)
+
+def logoutUser(response):
+    logout(response)
+    return redirect('home')
+    
 
 def index(response):
-    team = FantasyTeam.objects.get(id=1)
-    htmlDict = {"teamName": team}
-    return render(response, "main/base.html", htmlDict )
-
-
-
-def home(response):
-    now = datetime.now()
-    global lastUpdate
+    now = timezone.now()
+    lastLineUpdate = serverInfo.lastLineUpdate
+    lastMatchupUpdate = serverInfo.lastMatchupUpdate
+    lastProjUpdate = serverInfo.lastProjUpdate
         
-    updateDelta =  now - lastUpdate
-    if updateDelta > timedelta(minutes=10):
+    lineUpdateDelta =  now - lastLineUpdate
+    matchupUpdateDelta = now - lastMatchupUpdate
+    projUpdateDelta = now - lastProjUpdate
+    
+    if matchupUpdateDelta > timezone.timedelta(hours=3):
+        print('---------------Updating Matchups--------------------')
+        weeklyUpdates.updateMatchups()
+        print('---------------Updating User Info-------------------')
+        commonUpdates.updateUserInfo()
+        serverInfo.lastMatchupUpdate = timezone.now()
+    else:
+        print('Time Until Next Matchup Update: ' + str(timezone.timedelta(hours=3) - matchupUpdateDelta))
 
-        commonUpdates.updateRoster()
+    
+    if projUpdateDelta > timezone.timedelta(minutes=20):
+        print('---------------Updating Projections------------------')
         commonUpdates.updateAllProject()
-        
+        serverInfo.lastProjUpdate = timezone.now()
+    else:
+        print('Time Until Next Proj Update: ' + str(timezone.timedelta(minutes=20) - projUpdateDelta))
+    
+    if lineUpdateDelta > timezone.timedelta(minutes=10):
+        print('---------------Updating Rosters----------------------')
+        commonUpdates.updateRoster()
+        print('---------------Updating Lines------------------------')
         createLines.createLineUp()
-        createLines.createSpread()
-        createLines.createOU()
-        createLines.createML()
-        
+        createLines.updateAllLines()
+        serverInfo.lastLineUpdate = timezone.now()
+    else:
+        print('Time Until Next Line Update: ' + str(timezone.timedelta(minutes=10) - lineUpdateDelta))
+    
+    serverInfo.save()
 
-        lastUpdate = datetime.now()
 
     mathcups = Matchup.objects.all()
-    htmlDict = {"fantName":"testname",
+    context = {"fantName":"testname",
                 'matchups': mathcups,
-                'lastUpdate': lastUpdate.time()}
-    return render(response, "main/home.html", htmlDict)
+                'lastUpdate': lastLineUpdate,}
+    return render(response, "main/home.html", context)
+        
 
 def players(response):
     team = FantasyTeam.objects.get(id=1)
-    htmlDict = {"teamName": team}
-    return render(response, "main/players.html",htmlDict)
+    context = {"teamName": team}
+    return render(response, "main/players.html",context)
 
 def create(response):
     team = FantasyTeam.objects.get(id=1)
-    htmlDict = {"teamName": team}
+    context = {"teamName": team}
 
     if response.method == "POST":
         form = PlaceBet(response.POST)
 
         if form.is_valid():
-            return render(response, "main/players.html",htmlDict)
+            return render(response, "main/players.html",context)
     else:
         form = PlaceBet
 
