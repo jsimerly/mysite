@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.forms import fields
+from django.forms.widgets import MultiWidget, RadioSelect, Select
 from .models import FantasyTeam, Proxy
 
 class PlaceBet(forms.Form):
@@ -34,6 +36,13 @@ class AuthenticationFormWithInActiveUsers(AuthenticationForm):
     def confirm_login_allowed(self, user):
         return super().confirm_login_allowed(user)
 
+class SelectBetsForm(forms.Form):
+    teamsList = (
+        ('Team1', 'Team 11'),
+        ('Team2', 'Team 22'),
+        ('Team3', 'Team 33'),
+    )
+    fields = forms.MultipleChoiceField(choices=teamsList)
 
 
     

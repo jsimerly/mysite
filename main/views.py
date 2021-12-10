@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 #my imports
-from . forms import CreateUserForm, AuthenticationFormWithInActiveUsers
+from . forms import CreateUserForm, AuthenticationFormWithInActiveUsers, SelectBetsForm
 from dataUpdater.regularUpdates import UsersRosters
 from dataUpdater.playerUpdates import AllPlayers
 from dataUpdater.betting import CreateLines
@@ -112,6 +112,25 @@ def index(response):
                 'matchups': mathcups,
                 'lastUpdate': lastLineUpdate,}
     return render(response, "main/home.html", context)
+
+def betting(response):
+    if response.method == 'POST' :
+        form = SelectBetsForm(response.POST)
+        
+        
+        if form.is_valid():
+            form.save()         
+            
+            return redirect('index')
+        else:
+            print(form.errors)
+                   
+    else:
+        form = SelectBetsForm()
+
+    context = {'form':form,}
+    return render(response, 'main/betting.html', context)
+
         
 
 def players(response):

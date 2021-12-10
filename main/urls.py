@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/', views.registerPage, name='registerPage'),
     path('login/', views.loginPage, name='loginPage'),
     path('logout/', views.logoutUser, name='logout'),
-    path('teams/', views.teams, name='teams')
+    path('teams/', views.teams, name='teams'),
+    path('betting/', views.betting, name='betting')
 ]

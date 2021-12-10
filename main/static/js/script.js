@@ -21,3 +21,8 @@ window.onclick = function(event){
         }
     }
 }
+
+
+$(".selectBet").click(function(){
+    $(this).toggleClass('classA');
+});

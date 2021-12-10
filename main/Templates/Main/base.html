@@ -21,12 +21,12 @@
                     <a class='btn-style-nav style-nav' href='/'}>Home</a>
                     <a class='btn-style-nav style-nav' href="#">Stats</a>
                     <a class='btn-style-nav style-nav' href="/teams/">Teams</a>
-                    <a class='btn-style-nav style-nav' href="#">Bets</a>
+                    <a class='btn-style-nav style-nav' href="/betting/">Bets</a>
                     <a class='btn-style-nav style-nav' href="#">History</a>
                 </div>
                 <div class='account-nav'>
                     <div class='account-container'>
-                        {% comment %} <div class='account-picture'>
+                        <div class='account-picture'>
                             <img onclick='dropDown()' class ='account-btn circle-square' src={%static 'images/barrack.jpg' %} alt="", height ='80'>
                             <div id='account-dropdown' class='dropdown-content'>
                                 <a href="#">Register</a>
@@ -36,7 +36,7 @@
                         </div>                        
                         <div onclick='dropDown()'class='account-btn account-arrow'>
                             V
-                        </div> {% endcomment %}
+                        </div>
 
                         {% comment %} <div class='account-picture'>
                             <a href="/login/">Sign-in or Register</a>
@@ -44,7 +44,7 @@
                         {% if user.is_authenticated %}
                             <div class='account-picture'>
                                 <div>
-                                    <a href="#">Hello, {{request.user}}</a>
+                                    <a href="#">Hello,{{request.user}}</a>
                                 </div>                                
                             </div>
                             <div style='margin-left: 20px'>

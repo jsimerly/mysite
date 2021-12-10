@@ -42,7 +42,7 @@
     text-align: center;
 }
 
-.flex1 {
+.betting-box {
     flex:1;
     background-color: rgb(144, 144, 145);
     margin: 2px;
@@ -82,3 +82,9 @@
 .bet-selected {
     background-color: pink;
 }
+
+.classA {
+    background: white;
+    color: black;
+  }
+  
