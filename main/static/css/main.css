@@ -123,3 +123,8 @@ a {
 .dropdown-content a:hover {background-color: red}
 
 .show {display:block;}
+
+.betbutton.Selected {
+  background: white;
+}
+
