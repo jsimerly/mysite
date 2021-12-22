@@ -1,3 +1,4 @@
+from re import match
 from typing import Match
 from dataUpdater.sleeperApi import ApiEndpoint
 from main.models import FantasyTeam, Player, Matchup
@@ -52,49 +53,41 @@ class AllPlayers(ApiEndpoint):
 
     def updateMatchups(self):
         js = self.getMatchups()
-        teams = FantasyTeam.objects.all()
-        matchups = Matchup()
-
+        team = FantasyTeam.objects.all()
+        
+        matchingDict = {}
+        matchCounter = 0
         for i in js:
             rosterId = i['roster_id']
             matchupId = i['matchup_id']
 
             team = FantasyTeam.objects.get(rosterId=rosterId)
+
+            team.pk
             team.matchup = matchupId
+
+            if matchupId != None:
+                if matchupId not in matchingDict:
+                    matchingDict[matchupId] = team
+                else:
+                    matchCounter += 1
+                    versusTeam = matchingDict[matchupId]
+                    matchup = Matchup.objects.get(matchupId=matchCounter)
+                    matchup.team1 = team
+                    matchup.team2 = versusTeam
+                    print(team.funName + ' vs. ' + versusTeam.funName)
+
+                    matchup.save()
+
             team.save()
-        
-        matchup1 = []
-        matchup2 = []
-        matchup3 = []
-        matchup4 = []
-        matchup5 = []
 
-
-        for team in teams:
-            if team.matchup == 1:
-                matchup1.append(team)
-            elif team.matchup ==2:
-                matchup2.append(team)
-            elif team.matchup == 3:
-                matchup3.append(team)
-            elif team.matchup == 4:
-                matchup4.append(team)
-            elif team.matchup == 5:
-                matchup5.append(team)
-            else:
-                print('Team Matchup Id did not matchup')
-
-        matchupList = [matchup1,matchup2,matchup3,matchup4,matchup5]
-
-        for i in range(0,5):
-            try:
-                matchup = Matchup.objects.get(matchupId=i+1)                
-            except:
-                matchup = Matchup(matchupId=i+1)
-
-            matchup.team1 = matchupList[i][0]
-            matchup.team2 = matchupList[i][1]
+        hTeams = len(js)/2
+        if matchCounter != hTeams:
+            nByes = hTeams-matchCounter
+            nNoMatchup = range(matchCounter+1,matchCounter+int(nByes)+1)
+            for i in nNoMatchup:
+                matchup = Matchup.objects.get(matchupId=i)
+                matchup.setBye()
             
-            print(matchup.team1.funName + ' vs ' + matchup.team2.funName)
-            matchup.save()
+
             

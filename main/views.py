@@ -107,7 +107,7 @@ def index(response):
     serverInfo.save()
 
 
-    mathcups = Matchup.objects.all()
+    mathcups = Matchup.objects.all().exclude(team1_id=None)
     context = {"fantName":"testname",
                 'matchups': mathcups,
                 'lastUpdate': lastLineUpdate,}

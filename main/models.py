@@ -15,7 +15,7 @@ class FantasyTeam(models.Model):
     rosterId = models.IntegerField(null=True)
     funName = models.CharField(max_length=50)
     currentProj = models.FloatField(default=0)
-    matchup = models.IntegerField(default=0)
+    matchup = models.IntegerField(default=0, null=True)
     win = models.IntegerField(default=0)
     loss = models.IntegerField(default=0)
     tie = models.IntegerField(default=0)
@@ -123,14 +123,24 @@ class TeamHistory(models.Model):
     ou = models.FloatField(null=True)
 
 class Matchup(models.Model):
-    matchupId = models.IntegerField(default=0)
-    team1 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team1')
-    team2 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team2')
+    matchupId = models.IntegerField(default=0, null=True)
+    team1 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team1', null=True)
+    team2 = models.ForeignKey(FantasyTeam, on_delete=models.PROTECT, related_name='team2', null=True)
     overUnder = models.FloatField(null=True)
     spreadT1 = models.FloatField(null=True)
     spreadT2 = models.FloatField(null=True)
     team1Ml = models.FloatField(null=True)
     team2Ml = models.FloatField(null=True)
+
+    def setBye(self):
+        self.team1 = None
+        self.team2 = None
+        self.overUnder = None
+        self.spreadT1 = None
+        self.spreadT2 = None
+        self.team1Ml = None
+        self.team2Ml = None
+        self.save()
 
     def getMoneyLineT1(self):
         if self.team1Ml > 0:

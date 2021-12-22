@@ -20,7 +20,7 @@ class CreateLines():
 
 
     def _createSpread(self):
-        matchups = Matchup.objects.all()
+        matchups = Matchup.objects.all().exclude(team1_id=None)
 
         for matchup in matchups:
             spread1 = -(matchup.team1.currentProj - matchup.team2.currentProj)
@@ -32,7 +32,7 @@ class CreateLines():
             matchup.save()
 
     def _createOU(self):
-        matchups = Matchup.objects.all()
+        matchups = Matchup.objects.all().exclude(team1_id=None)
 
         for matchup in matchups:
             ou = abs(matchup.team1.currentProj + matchup.team2.currentProj)
@@ -41,7 +41,7 @@ class CreateLines():
             matchup.save()
 
     def _createML(self):
-        matchups = Matchup.objects.all()
+        matchups = Matchup.objects.all().exclude(team1_id=None)
         vig = self.static.vig
 
         for matchup in matchups:
